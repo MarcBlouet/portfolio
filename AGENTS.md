@@ -40,9 +40,31 @@ Ne jamais le committer ni y déplacer le code du site.
 - README / profil : ton simple, amateur
 - Commits : `chore`, `feat`, `fix`, `style`, `docs`
 
+## Architecture
+
+- Une seule page : `app/page.tsx`
+- Sections = composants dans `components/`
+- Header, Hero, About, Skills, Projets, Contact
+- Pas de TopBar
+- Les composants ne s’importent pas entre eux
+- Style : classes Tailwind dans les composants (pas de CSS séparé pour l’instant)
+- Tokens charte : plus tard, depuis `_local/`
+
+## Mode de travail avec l’agent
+
+- L’utilisateur écrit le code
+- L’agent guide, n’écrit pas les fichiers
+- Une étape à la fois, messages courts
+
+## État actuel
+
+- Structure page + composants vides
+- Prochaine étape : remplir `Header.tsx` (logo + nav + bouton)
+
 ## À faire
 
+- Header
+- Hero, About, Skills, Projets, Contact
 - Brancher les tokens de la charte
-- Header + logo selon thème clair/sombre
-- Pages accueil, projets, à propos, contact
-- Remplacer le README par défaut Next
+- Logo clair/sombre
+- Remplacer le README Next
