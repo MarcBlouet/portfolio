@@ -24,7 +24,7 @@ Pas encore : Prisma, Supabase, Zustand, paiements, email.
 
 ## Fichiers importants
 
-- `app/globals.css` : uniquement `@import "tailwindcss";` et `@plugin "daisyui";`
+- `app/globals.css` : Tailwind + daisyUI (`themes: light --default, dark --prefersdark`)
 - Logos du site : `public/brand/logo.svg` (clair), `public/brand/logo-blanc.svg` (sombre)
 - Favicon : `metadata.icons` → `/brand/logo.svg` dans `app/layout.tsx`
 - `layout.tsx` : `lang="fr"`, polices Geist
@@ -58,13 +58,17 @@ Ne jamais le committer ni y déplacer le code du site.
 
 ## État actuel
 
-- Structure page + composants vides
-- Prochaine étape : remplir `Header.tsx` (logo + nav + bouton)
+- Header fait : logo (clair/sombre via `useState` + `theme-controller`), nav ancres, toggle daisyUI `swap`
+- `Header.tsx` est un Client Component (`"use client"`)
+- Thèmes daisyUI : light / dark
+- Prochaine étape : `Hero.tsx` (`<section id="intro">`)
 
 ## À faire
 
-- Header
-- Hero, About, Skills, Projets, Contact
+- Hero (`id="intro"` : titre, phrase, boutons Projets / Contact)
+- About, Skills, Projets, Contact (`id` : apropos, stack, projets, contact)
+- Menu burger (nav mobile)
+- Lien nav actif
+- Mémoriser le thème (`localStorage`)
 - Brancher les tokens de la charte
-- Logo clair/sombre
 - Remplacer le README Next
