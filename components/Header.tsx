@@ -18,6 +18,7 @@ export default function Header() {
           alt="logo"
           height={25}
           width={25}
+          className="h-6.5 w-6.5 shrink-0"
         />
       </a>
 
