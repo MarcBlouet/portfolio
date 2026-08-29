@@ -73,12 +73,18 @@ Ne jamais le committer ni y déplacer le code du site.
 - About fait (`id="apropos"`) : Qui suis-je ?, plusieurs `<p>`
 - Skills fait (`id="stack"`) : badges Next.js, React, TypeScript, Tailwind CSS, daisyUI
 - Projets fait (`id="projets"`) : 3 cartes daisyUI (Portfolio Live, CaristePrêt En cours, Snippix Concept), grille `sm:grid-cols-2 md:grid-cols-3`
-- Commits : `feat: sections hero, about et skills` ; Projets + AGENTS.md à committer
-- Prochaine étape : `Contact.tsx` (`<section id="contact">`)
+- Contact visuel fait (`id="contact"`) : 2 colonnes, form Daisy (nom / email / message / Envoyer), `w-full max-w-2xl mx-auto`, labels `htmlFor` + `id`. Liens GitHub / X en texte. `"use client"` encore inutile. Pas d’envoi.
+- `app/api/contact/route.ts` créé, encore vide
+- Commits poussés : header ; `feat: sections hero, about et skills` ; `feat: section projet`
+- Session stoppée. Prochaine : polish nav + Contact API
 
-## À faire
+## À faire (prochaine session)
 
-- Contact (`id="contact"`)
+- Scroll fluide : `scroll-smooth` sur `<html>` dans `app/layout.tsx`
+- Header sticky : `sticky top-0 z-50` + `bg-base-100` (wrapper pleine largeur si besoin) ; `scroll-mt-…` sur les sections
+- Photo Hero à droite : grille 2 cols, fichier dans `public/`
+- Icônes Contact (GitHub, X, LinkedIn, Instagram) : SVG inline `fill-current` (suit light / dark), pas une image par thème
+- Formulaire → `POST /api/contact` ; route `fetch` Brevo `https://api.brevo.com/v3/smtp/email` (header `api-key`). Pas de SDK. Clé dans `.env.local` (`BREVO_API_KEY`), déjà gitignoré. Expéditeur vérifié dans Brevo
 - Menu burger (nav mobile)
 - Lien nav actif
 - Mémoriser le thème (`localStorage`)
