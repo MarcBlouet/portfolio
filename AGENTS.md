@@ -52,21 +52,33 @@ Ne jamais le committer ni y déplacer le code du site.
 
 ## Mode de travail avec l’agent
 
-- L’utilisateur écrit le code
-- L’agent guide, n’écrit pas les fichiers
-- Une étape à la fois, messages courts
+- L’utilisateur écrit le code ; l’agent guide, n’écrit pas les fichiers (sauf demande, ex. AGENTS.md)
+- Avant une section : expliquer le plan (quoi / pourquoi), laisser essayer, corriger après
+- Pas de mini-étapes à copier
+- Messages courts, français
+
+## Layout des sections
+
+- Largeur commune : `max-w-5xl mx-auto px-4 md:px-8 py-16`
+- Titres de section : `h2` avec `text-2xl md:text-4xl font-bold mb-4`
+- Apostrophes typographiques `’` dans le JSX (évite `react/no-unescaped-entities`)
 
 ## État actuel
 
 - Header fait : logo (clair/sombre via `useState` + `theme-controller`), nav ancres, toggle daisyUI `swap`
 - `Header.tsx` est un Client Component (`"use client"`)
 - Thèmes daisyUI : light / dark
-- Prochaine étape : `Hero.tsx` (`<section id="intro">`)
+- Logo `Image` : `width`/`height` 25 + `className="h-6.5 w-6.5 shrink-0"`
+- Hero fait (`id="intro"`) : h1 Marc Blouet, phrase, boutons `#projets` / `#contact`
+- About fait (`id="apropos"`) : Qui suis-je ?, plusieurs `<p>`
+- Skills fait (`id="stack"`) : badges Next.js, React, TypeScript, Tailwind CSS, daisyUI
+- Projets fait (`id="projets"`) : 3 cartes daisyUI (Portfolio Live, CaristePrêt En cours, Snippix Concept), grille `sm:grid-cols-2 md:grid-cols-3`
+- Commits : `feat: sections hero, about et skills` ; Projets + AGENTS.md à committer
+- Prochaine étape : `Contact.tsx` (`<section id="contact">`)
 
 ## À faire
 
-- Hero (`id="intro"` : titre, phrase, boutons Projets / Contact)
-- About, Skills, Projets, Contact (`id` : apropos, stack, projets, contact)
+- Contact (`id="contact"`)
 - Menu burger (nav mobile)
 - Lien nav actif
 - Mémoriser le thème (`localStorage`)
