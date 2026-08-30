@@ -75,14 +75,15 @@ Ne jamais le committer ni y déplacer le code du site.
 - Projets fait (`id="projets"`) : 3 cartes daisyUI (Portfolio Live, CaristePrêt En cours, Snippix Concept), grille `sm:grid-cols-2 md:grid-cols-3`
 - Contact visuel fait (`id="contact"`) : 2 colonnes, form Daisy (nom / email / message / Envoyer), `w-full max-w-2xl mx-auto`, labels `htmlFor` + `id`. Liens GitHub / X en texte. `"use client"` encore inutile. Pas d’envoi.
 - `app/api/contact/route.ts` créé, encore vide
-- Commits poussés : header ; `feat: sections hero, about et skills` ; `feat: section projet`
-- Session stoppée. Prochaine : polish nav + Contact API
+- Scroll fluide fait : `className="scroll-smooth"` sur `<html>` dans `app/layout.tsx`
+- Header sticky fait : wrapper `sticky top-0 z-10 bg-base-100 border-b border-base-content/25` + `max-w-5xl mx-auto` (barre pas pleine largeur, choix assumé). Inner `<header>` garde le flex. Tailwind v4 : opacité via `couleur/25`, pas `border-opacity-*`
+- `scroll-mt-20` sur Hero, About, Skills, Projets, Contact
+- Commits poussés : header ; `feat: sections hero, about et skills` ; `feat: section projet` ; formulaire contact (sans envoi)
+- Session stoppée. Prochaine : photo Hero, puis icônes Contact, puis API Brevo
 
 ## À faire (prochaine session)
 
-- Scroll fluide : `scroll-smooth` sur `<html>` dans `app/layout.tsx`
-- Header sticky : `sticky top-0 z-50` + `bg-base-100` (wrapper pleine largeur si besoin) ; `scroll-mt-…` sur les sections
-- Photo Hero à droite : grille 2 cols, fichier dans `public/`
+- Photo Hero à droite : grille 2 cols, fichier dans `public/` (pas `brand/`, pas `_local/`). Ex. `public/images/marc.jpg` → `/images/marc.jpg` + `next/image`
 - Icônes Contact (GitHub, X, LinkedIn, Instagram) : SVG inline `fill-current` (suit light / dark), pas une image par thème
 - Formulaire → `POST /api/contact` ; route `fetch` Brevo `https://api.brevo.com/v3/smtp/email` (header `api-key`). Pas de SDK. Clé dans `.env.local` (`BREVO_API_KEY`), déjà gitignoré. Expéditeur vérifié dans Brevo
 - Menu burger (nav mobile)
