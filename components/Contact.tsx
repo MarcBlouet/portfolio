@@ -5,7 +5,7 @@
 export default function Contact() {
   return (
     <section
-      className="scroll-mt-20 max-w-5xl mx-auto px-4 md:px-8 py-16 grid gap-10 md:grid-cols-2"
+      className="scroll-mt-15 max-w-5xl mx-auto px-4 md:px-8 py-16 grid gap-10 md:grid-cols-2"
       id="contact">
       <div>
         <h2 className="text-2xl md:text-4xl font-bold mb-4">Contact</h2>
@@ -17,7 +17,7 @@ export default function Contact() {
         </ul>
 
       </div>
-      <form className="flex flex-col gap-2 bg-base-200 shadow-sm p-6 w-full max-w-2xl mx-auto">
+      <form className="flex flex-col gap-2 bg-base-200 shadow-sm p-6 w-full max-w-2xl mx-auto rounded-xl">
 
           <label htmlFor="nom" className="label">Prénom et nom</label>
           <input 

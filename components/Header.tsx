@@ -13,7 +13,7 @@ export default function Header() {
     <div className="max-w-5xl mx-auto sticky top-0 bg-base-100 z-10 border-b border-base-content/25 ">
       <header className="flex justify-between items-center max-w-5xl mx-auto px-4 md:px-8 py-4">
 
-        <a href="#intro" className="border border-base-content/25 rounded-lg p-2">
+        <a href="#" className="border border-base-content/25 rounded-lg p-2">
           <Image
             src={dark ? "/brand/logo-blanc.svg" : "/brand/logo.svg"}
             alt="logo"
@@ -22,12 +22,8 @@ export default function Header() {
             className="h-6.5 w-6.5 shrink-0"
           />
         </a>
-
         <nav className="border border-base-content/25 rounded-lg ">
           <ul className="flex divide-x divide-base-content/25">
-            <li>
-              <a className="block px-4 py-2 hover:bg-base-content/10 transition-colors" href="#intro">Intro</a>
-            </li>
             <li>
               <a className="block px-4 py-2 hover:bg-base-content/10 transition-colors" href="#apropos">À propos</a>
             </li>

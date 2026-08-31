@@ -3,7 +3,7 @@
 export default function About() {
   return (
     <section
-      className="scroll-mt-20 max-w-5xl mx-auto px-4 md:px-8 py-16"
+      className="scroll-mt-15 max-w-5xl mx-auto px-4 md:px-8 py-16"
       id="apropos">
       <h2 className="text-2xl md:text-4xl font-bold mb-4">Qui suis-je ?</h2>
       <p className="mb-2">

@@ -3,14 +3,14 @@
 export default function Projets() {
   return (
     <section
-      className="scroll-mt-20 max-w-5xl mx-auto px-4 md:px-8 py-16"
+      className="scroll-mt-15 max-w-5xl mx-auto px-4 md:px-8 py-16"
       id="projets">
 
       <h2 className="text-2xl md:text-4xl font-bold mb-4">Projets en chantier</h2>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
 
-        <div className="card bg-base-200 shadow-sm">
+        <div className="card bg-base-200 shadow-sm rounded-xl">
           <div className="card-body">
             <div className="badge badge-soft badge-success">Live</div>
             <h3 className="card-title">Portfolio</h3>
@@ -18,7 +18,7 @@ export default function Projets() {
           </div>
         </div>
 
-        <div className="card bg-base-200 shadow-sm">
+        <div className="card bg-base-200 shadow-sm rounded-xl">
           <div className="card-body">
             <div className="badge badge-soft badge-warning">En cours</div>
             <h3 className="card-title">CaristePrêt</h3>
@@ -26,7 +26,7 @@ export default function Projets() {
           </div>
         </div>
 
-        <div className="card bg-base-200 shadow-sm">
+        <div className="card bg-base-200 shadow-sm rounded-xl">
           <div className="card-body">
             <div className="badge badge-soft badge-info">Concept</div>
             <h3 className="card-title">Snippix</h3>
