@@ -1,11 +1,38 @@
 "use client"
+import { useState } from "react"
 
 //Contact(formulaire)
 
 export default function Contact() {
+  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle")
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const form = e.currentTarget
+    const data = {
+      nom: (form.elements.namedItem("nom") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+      company: (form.elements.namedItem("company") as HTMLInputElement).value,
+    }
+
+    setStatus("loading")
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+    if (res.ok) {
+      form.reset()
+      setStatus("ok")
+    } else {
+      setStatus("error")
+    }
+  }
+
   return (
     <section
-      className="scroll-mt-15 max-w-5xl mx-auto px-4 md:px-8 py-16 grid gap-10 md:grid-cols-2"
+      className="scroll-mt-15 max-w-5xl mx-auto px-4 md:px-8 py-16 min-h-[calc(100svh-4rem)] grid gap-10 md:grid-cols-2 items-start"
       id="contact">
       <div>
         <h2 className="text-2xl md:text-4xl font-bold mb-4">Contact</h2>
@@ -31,23 +58,35 @@ export default function Contact() {
         </ul>
 
       </div>
-      <form className="flex flex-col gap-2 bg-base-200 shadow-sm p-6 w-full max-w-2xl mx-auto rounded-xl">
+      <form onSubmit={onSubmit} className="flex flex-col gap-2 bg-base-200 shadow-sm p-6 w-full max-w-2xl mx-auto rounded-xl">
 
         <label htmlFor="nom" className="label">Prénom et nom</label>
         <input
-          className="input w-full" type="text" placeholder="John Doe" name="nom" id="nom" />
+          className="input w-full" type="text" placeholder="John Doe" name="nom" id="nom"
+          required maxLength={100} autoComplete="name" disabled={status === "ok"} />
 
         <label htmlFor="email" className="label">E-mail</label>
         <input
-          className="input w-full" type="email" name="email" id="email" />
+          className="input w-full" type="email" name="email" id="email"
+          required maxLength={200} autoComplete="email" disabled={status === "ok"} />
+
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor="company">Société</label>
+          <input type="text" name="company" id="company" tabIndex={-1} autoComplete="off" />
+        </div>
 
         <label htmlFor="message" className="label">Message</label>
         <textarea
           className="textarea w-full mb-2"
-          id="message" name="message" placeholder="Bonjour,...">
+          id="message" name="message" placeholder="Bonjour,..."
+          required maxLength={2000} disabled={status === "ok"}>
         </textarea>
 
-        <button type="submit" className="btn btn-primary">Envoyer</button>
+        <button type="submit" className="btn btn-primary" disabled={status === "loading" || status === "ok"}>
+          {status === "loading" ? "Envoi…" : "Envoyer"}
+        </button>
+        {status === "ok" && <p>Message envoyé. Pas besoin d’envoyer une deuxième fois, je te réponds par e-mail.</p>}
+        {status === "error" && <p>Envoi impossible. Réessaie.</p>}
       </form>
     </section >
   )

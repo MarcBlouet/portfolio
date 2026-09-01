@@ -2,36 +2,44 @@
 
 // Barre du haut(logo + nav + bouton)
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 
+function subscribeTheme(onChange: () => void) {
+  window.addEventListener("theme-change", onChange)
+  return () => window.removeEventListener("theme-change", onChange)
+}
+
+function getTheme() {
+  return localStorage.getItem("theme") === "dark"
+}
 
 export default function Header() {
 
-  const [dark, setDark] = useState(false)
+  const dark = useSyncExternalStore(subscribeTheme, getTheme, () => false)
   const [active, setActive] = useState("")
 
   useEffect(() => {
     const ids = ["apropos", "stack", "projets", "contact"]
-    const visible = new Set<string>()
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) visible.add(entry.target.id)
-          else visible.delete(entry.target.id)
-        }
-        const current = ids.find((id) => visible.has(id))
-        if (current) setActive(current)
-      },
-      { rootMargin: "-25% 0px -60% 0px" }
-    )
+    const update = () => {
+      const ligne = 120
+      let current = ""
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= ligne) current = id
+      }
+      setActive(current)
+    }
 
-    ids.forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
-
-    return () => observer.disconnect()
+    update()
+    window.addEventListener("scroll", update, { passive: true })
+    window.addEventListener("hashchange", update)
+    window.addEventListener("resize", update)
+    return () => {
+      window.removeEventListener("scroll", update)
+      window.removeEventListener("hashchange", update)
+      window.removeEventListener("resize", update)
+    }
   }, [])
 
   return (
@@ -54,10 +62,26 @@ export default function Header() {
             </svg>
           </button>
           <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-lg border border-base-content/25 z-10 mt-2 w-44 p-2">
-            <li><a href="#apropos">À propos</a></li>
-            <li><a href="#stack">Stack</a></li>
-            <li><a href="#projets">Projets</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li>
+              <a
+                className={active === "apropos" ? "bg-base-content text-base-100" : ""}
+                href="#apropos">À propos</a>
+            </li>
+            <li>
+              <a
+                className={active === "stack" ? "bg-base-content text-base-100" : ""}
+                href="#stack">Stack</a>
+            </li>
+            <li>
+              <a
+                className={active === "projets" ? "bg-base-content text-base-100" : ""}
+                href="#projets">Projets</a>
+            </li>
+            <li>
+              <a
+                className={active === "contact" ? "bg-base-content text-base-100" : ""}
+                href="#contact">Contact</a>
+            </li>
           </ul>
         </div>
 
@@ -106,7 +130,16 @@ export default function Header() {
           aria-label="Changer de thème"
           className="swap border border-base-content/25 rounded-lg p-1">
           {/* this hidden checkbox controls the state */}
-          <input type="checkbox" checked={dark} onChange={() => setDark(!dark)} className="theme-controller" value="dark" />
+          <input
+            type="checkbox"
+            checked={dark}
+            onChange={() => {
+              localStorage.setItem("theme", dark ? "light" : "dark")
+              window.dispatchEvent(new Event("theme-change"))
+            }}
+            className="theme-controller"
+            value="dark"
+          />
 
           {/* sun icon */}
           <svg

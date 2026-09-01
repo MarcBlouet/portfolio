@@ -20,7 +20,9 @@ Repo : https://github.com/MarcBlouet/portfolio
 - Pas de dossier `src/` (`app/` à la racine)
 - Alias `@/*`
 
-Pas encore : Prisma, Supabase, Zustand, paiements, email.
+Pas encore : Prisma, Supabase, Zustand, paiements.
+
+Emails : Brevo (fetch API, pas de SDK). Clé `BREVO_API_KEY` dans `.env.local` (gitignoré).
 
 ## Fichiers importants
 
@@ -52,7 +54,7 @@ Ne jamais le committer ni y déplacer le code du site.
 ## Mode de travail avec l’agent
 
 - L’utilisateur écrit le code ; l’agent guide, n’écrit pas les fichiers (sauf demande, ex. AGENTS.md)
-- Avant une section : expliquer le plan (quoi / pourquoi), laisser essayer, corriger après
+- Avant une section : expliquer le plan (quoi / pourquoi), laisser essayer, corriger après, si besoin montrer les éléments à mettre en place.
 - Pas de mini-étapes à copier
 - Messages courts, français
 
@@ -64,28 +66,27 @@ Ne jamais le committer ni y déplacer le code du site.
 
 ## État actuel
 
-- Header fait : logo (clair/sombre via `useState` + `theme-controller`), nav ancres, toggle daisyUI `swap`
+- Header fait : logo, nav ancres, toggle daisyUI `swap` + `theme-controller`
 - `Header.tsx` est un Client Component (`"use client"`)
-- Thèmes daisyUI : light / dark
+- Thèmes daisyUI : light / dark. Thème mémorisé dans `localStorage` (`theme`). Lecture via `useSyncExternalStore` (évite le mismatch d’hydratation logo clair/sombre). Checkbox écrit `localStorage` + `theme-change`
 - Logo `Image` : `width`/`height` 25 + `className="h-6.5 w-6.5 shrink-0"`. Lien `href="#"` (haut de page). Plus de lien nav « Intro »
 - Hero fait : grille `grid-cols-1 md:grid-cols-2`, texte centré en mobile / à gauche dès `md`, photo `public/marc.jpg` via `next/image` (`priority`, `justify-self-center md:justify-self-end`). Plus d’`id` ni de `scroll-mt`
 - About fait (`id="apropos"`) : Qui suis-je ?, plusieurs `<p>`
 - Skills fait (`id="stack"`) : badges Next.js, React, TypeScript, Tailwind CSS, daisyUI (`badge-outline`)
 - Projets fait (`id="projets"`) : 3 cartes daisyUI (Portfolio Live, CaristePrêt En cours, Snippix Concept), grille `sm:grid-cols-2 md:grid-cols-3`
-- Contact visuel fait (`id="contact"`) : 2 colonnes, form Daisy (nom / email / message / Envoyer), `w-full max-w-2xl mx-auto`, labels `htmlFor` + `id`. `"use client"` encore inutile. Pas d’envoi.
-- Icônes Contact faites : GitHub + X, SVG inline Simple Icons, `size-6 fill-current`, `target="_blank"` `rel="noopener noreferrer"` `aria-label`. Pas LinkedIn / Instagram (choix). Liste `flex gap-4 mt-4`
-- `app/api/contact/route.ts` créé, encore vide
+- Contact fait (`id="contact"`) : 2 colonnes, `items-start` (le form ne s’étire pas). Form Daisy (nom / email / message / Envoyer), honeypot `company` hidden. `"use client"`. POST `/api/contact`. Status `idle|loading|ok|error`. `form.reset` si ok. Champs + bouton `disabled` si ok. `required` `maxLength` 100/200/2000. Section `min-h-[calc(100svh-4rem)]` pour que Contact puisse coller sous le header (formulaire inchangé)
+- Icônes Contact : GitHub + X, SVG inline Simple Icons, `size-6 fill-current`, `target="_blank"` `rel="noopener noreferrer"` `aria-label`. Pas LinkedIn / Instagram (choix). Liste `flex gap-4 mt-4`
+- `app/api/contact/route.ts` : POST, trim, honeypot fake ok, limites, regex email. `fetch` Brevo `https://api.brevo.com/v3/smtp/email` (header `api-key`). Sender/to `marcblouet.pro@gmail.com`. `replyTo` visiteur. `textContent` `De : ${nom}\nEmail : ${email}\n\n${message}` (pas de chevrons, Outlook les mange). Pas de SDK. Ne jamais committer `.env.local`
 - Scroll fluide fait : `className="scroll-smooth"` sur `<html>` dans `app/layout.tsx`
 - Header sticky fait : wrapper `sticky top-0 z-10 bg-base-100 border-b border-base-content/25` + `max-w-5xl mx-auto` (barre pas pleine largeur, choix assumé). Inner `<header>` garde le flex. Tailwind v4 : opacité via `couleur/25`, pas `border-opacity-*`
 - `scroll-mt-15` sur About, Skills, Projets, Contact (pas sur Hero)
-- Menu burger fait : daisyUI `dropdown dropdown-center sm:hidden` au centre (remplace la nav). Nav desktop `hidden sm:block`. Breakpoint `sm` (pas `md`). SVG 3 traits, pas Lucide. Burger volontairement au milieu, pas collé au thème
-- Lien nav actif fait : `active` + `IntersectionObserver` (`rootMargin: "-25% 0px -60% 0px"`), Set des sections visibles, première id dans l’ordre apropos → contact. Ternaires `bg-base-content text-base-100`. `overflow-hidden` sur le `<nav>` pour les coins. Pas encore dans le menu burger
-- Header non découpé (un fichier). Session stoppée 2026-09-01 matin. Prochaine : API Brevo
+- Menu burger fait : daisyUI `dropdown dropdown-center sm:hidden` au centre (remplace la nav). Nav desktop `hidden sm:block`. Breakpoint `sm` (pas `md`). SVG 3 traits, pas Lucide. Burger volontairement au milieu, pas collé au thème. Mêmes ternaires actifs que le desktop
+- Lien nav actif : scroll + `getBoundingClientRect().top <= 120`, dernière section dont le haut a passé cette ligne. `setActive("")` au-dessus d’À propos (Hero). Aussi `hashchange` / `resize`. Ternaires `bg-base-content text-base-100`. `overflow-hidden` sur le `<nav>` pour les coins. Plus d’IntersectionObserver (trop de sections visibles en grand écran)
+- Header non découpé (un fichier). Session 2026-09-01 après-midi : Brevo + thème + spy nav
 
 ## À faire (prochaine session)
 
-- Formulaire → `POST /api/contact` ; route `fetch` Brevo `https://api.brevo.com/v3/smtp/email` (header `api-key`). Pas de SDK. Clé dans `.env.local` (`BREVO_API_KEY`), déjà gitignoré. Expéditeur vérifié dans Brevo
-- Mémoriser le thème (`localStorage`)
-- Ternaire actif aussi dans le menu burger (optionnel)
-- Brancher les tokens de la charte
+- Brancher les tokens de la charte (`_local/`)
 - Remplacer le README Next
+- Vercel : ajouter `BREVO_API_KEY` (jamais dans le repo)
+- DKIM / domaine Brevo : optionnel, plus tard
