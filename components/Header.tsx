@@ -2,12 +2,37 @@
 
 // Barre du haut(logo + nav + bouton)
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 export default function Header() {
 
   const [dark, setDark] = useState(false)
+  const [active, setActive] = useState("")
+
+  useEffect(() => {
+    const ids = ["apropos", "stack", "projets", "contact"]
+    const visible = new Set<string>()
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id)
+          else visible.delete(entry.target.id)
+        }
+        const current = ids.find((id) => visible.has(id))
+        if (current) setActive(current)
+      },
+      { rootMargin: "-25% 0px -60% 0px" }
+    )
+
+    ids.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <div className="max-w-5xl mx-auto sticky top-0 bg-base-100 z-10 border-b border-base-content/25 ">
@@ -22,19 +47,57 @@ export default function Header() {
             className="h-6.5 w-6.5 shrink-0"
           />
         </a>
-        <nav className="border border-base-content/25 rounded-lg ">
+        <div className="dropdown dropdown-center sm:hidden">
+          <button type="button" tabIndex={0} className="border border-base-content/25 rounded-lg p-2" aria-label="Menu">
+            <svg className="size-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" />
+            </svg>
+          </button>
+          <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-lg border border-base-content/25 z-10 mt-2 w-44 p-2">
+            <li><a href="#apropos">À propos</a></li>
+            <li><a href="#stack">Stack</a></li>
+            <li><a href="#projets">Projets</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <nav className="border border-base-content/25 rounded-lg overflow-hidden hidden sm:block">
           <ul className="flex divide-x divide-base-content/25">
             <li>
-              <a className="block px-4 py-2 hover:bg-base-content/10 transition-colors" href="#apropos">À propos</a>
+              <a
+                className={
+                  active === "apropos"
+                    ? "block px-4 py-2 bg-base-content text-base-100"
+                    : "block px-4 py-2 hover:bg-base-content/10 transition-colors"
+                }
+                href="#apropos">À propos</a>
             </li>
             <li>
-              <a className="block px-4 py-2 hover:bg-base-content/10 transition-colors" href="#stack">Stack</a>
+              <a
+                className={
+                  active === "stack"
+                    ? "block px-4 py-2 bg-base-content text-base-100"
+                    : "block px-4 py-2 hover:bg-base-content/10 transition-colors"
+                }
+                href="#stack">Stack</a>
             </li>
             <li>
-              <a className="block px-4 py-2 hover:bg-base-content/10 transition-colors" href="#projets">Projets</a>
+              <a
+                className={
+                  active === "projets"
+                    ? "block px-4 py-2 bg-base-content text-base-100"
+                    : "block px-4 py-2 hover:bg-base-content/10 transition-colors"
+                }
+                href="#projets">Projets</a>
             </li>
             <li>
-              <a className="block px-4 py-2 hover:bg-base-content/10 transition-colors" href="#contact">Contact</a>
+              <a
+                className={
+                  active === "contact"
+                    ? "block px-4 py-2 bg-base-content text-base-100"
+                    : "block px-4 py-2 hover:bg-base-content/10 transition-colors"
+                }
+                href="#contact">Contact</a>
             </li>
           </ul>
         </nav>

@@ -72,19 +72,20 @@ Ne jamais le committer ni y déplacer le code du site.
 - About fait (`id="apropos"`) : Qui suis-je ?, plusieurs `<p>`
 - Skills fait (`id="stack"`) : badges Next.js, React, TypeScript, Tailwind CSS, daisyUI (`badge-outline`)
 - Projets fait (`id="projets"`) : 3 cartes daisyUI (Portfolio Live, CaristePrêt En cours, Snippix Concept), grille `sm:grid-cols-2 md:grid-cols-3`
-- Contact visuel fait (`id="contact"`) : 2 colonnes, form Daisy (nom / email / message / Envoyer), `w-full max-w-2xl mx-auto`, labels `htmlFor` + `id`. Liens GitHub / X en texte. `"use client"` encore inutile. Pas d’envoi.
+- Contact visuel fait (`id="contact"`) : 2 colonnes, form Daisy (nom / email / message / Envoyer), `w-full max-w-2xl mx-auto`, labels `htmlFor` + `id`. `"use client"` encore inutile. Pas d’envoi.
+- Icônes Contact faites : GitHub + X, SVG inline Simple Icons, `size-6 fill-current`, `target="_blank"` `rel="noopener noreferrer"` `aria-label`. Pas LinkedIn / Instagram (choix). Liste `flex gap-4 mt-4`
 - `app/api/contact/route.ts` créé, encore vide
 - Scroll fluide fait : `className="scroll-smooth"` sur `<html>` dans `app/layout.tsx`
 - Header sticky fait : wrapper `sticky top-0 z-10 bg-base-100 border-b border-base-content/25` + `max-w-5xl mx-auto` (barre pas pleine largeur, choix assumé). Inner `<header>` garde le flex. Tailwind v4 : opacité via `couleur/25`, pas `border-opacity-*`
 - `scroll-mt-15` sur About, Skills, Projets, Contact (pas sur Hero)
-- Session stoppée. Prochaine : icônes Contact, puis API Brevo
+- Menu burger fait : daisyUI `dropdown dropdown-center sm:hidden` au centre (remplace la nav). Nav desktop `hidden sm:block`. Breakpoint `sm` (pas `md`). SVG 3 traits, pas Lucide. Burger volontairement au milieu, pas collé au thème
+- Lien nav actif fait : `active` + `IntersectionObserver` (`rootMargin: "-25% 0px -60% 0px"`), Set des sections visibles, première id dans l’ordre apropos → contact. Ternaires `bg-base-content text-base-100`. `overflow-hidden` sur le `<nav>` pour les coins. Pas encore dans le menu burger
+- Header non découpé (un fichier). Session stoppée 2026-09-01 matin. Prochaine : API Brevo
 
 ## À faire (prochaine session)
 
-- Icônes Contact (GitHub, X, LinkedIn, Instagram) : SVG inline `fill-current` (suit light / dark), pas une image par thème
 - Formulaire → `POST /api/contact` ; route `fetch` Brevo `https://api.brevo.com/v3/smtp/email` (header `api-key`). Pas de SDK. Clé dans `.env.local` (`BREVO_API_KEY`), déjà gitignoré. Expéditeur vérifié dans Brevo
-- Menu burger (nav mobile)
-- Lien nav actif
 - Mémoriser le thème (`localStorage`)
+- Ternaire actif aussi dans le menu burger (optionnel)
 - Brancher les tokens de la charte
 - Remplacer le README Next
