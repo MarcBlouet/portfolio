@@ -5,6 +5,7 @@ import { useState } from "react"
 
 export default function Contact() {
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle")
+  const [errorMsg, setErrorMsg] = useState("Envoi impossible. Réessaie.")
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -17,15 +18,22 @@ export default function Contact() {
     }
 
     setStatus("loading")
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-    if (res.ok) {
-      form.reset()
-      setStatus("ok")
-    } else {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+      if (res.ok) {
+        form.reset()
+        setStatus("ok")
+      } else {
+        const body = await res.json().catch(() => null)
+        setErrorMsg(body?.error ?? "Envoi impossible. Réessaie.")
+        setStatus("error")
+      }
+    } catch {
+      setErrorMsg("Envoi impossible. Réessaie.")
       setStatus("error")
     }
   }
@@ -85,8 +93,18 @@ export default function Contact() {
         <button type="submit" className="btn btn-primary" disabled={status === "loading" || status === "ok"}>
           {status === "loading" ? "Envoi…" : "Envoyer"}
         </button>
-        {status === "ok" && <p>Message envoyé. Pas besoin d’envoyer une deuxième fois, je te réponds par e-mail.</p>}
-        {status === "error" && <p>Envoi impossible. Réessaie.</p>}
+        <div aria-live="polite">
+          {status === "ok" && (
+            <div className="alert alert-success" role="status">
+              Message envoyé. Pas besoin d’envoyer une deuxième fois, je te réponds par e-mail.
+            </div>
+          )}
+          {status === "error" && (
+            <div className="alert alert-error" role="alert">
+              {errorMsg}
+            </div>
+          )}
+        </div>
       </form>
     </section >
   )
