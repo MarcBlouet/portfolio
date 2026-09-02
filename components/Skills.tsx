@@ -12,6 +12,8 @@ export default function Skills() {
         <li className="badge badge-outline">TypeScript</li>
         <li className="badge badge-outline">Tailwind CSS</li>
         <li className="badge badge-outline">daisyUI</li>
+        <li className="badge badge-outline">Vercel</li>
+        <li className="badge badge-outline">Brevo</li>
       </ul>
 
     </section>

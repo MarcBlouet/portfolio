@@ -4,13 +4,16 @@
 import Image from "next/image";
 import { useState, useEffect, useSyncExternalStore } from "react";
 
+const THEME_CLAIR = "winter"
+const THEME_SOMBRE = "night"
+
 function subscribeTheme(onChange: () => void) {
   window.addEventListener("theme-change", onChange)
   return () => window.removeEventListener("theme-change", onChange)
 }
 
 function getTheme() {
-  return localStorage.getItem("theme") === "dark"
+  return localStorage.getItem("theme") === THEME_SOMBRE
 }
 
 export default function Header() {
@@ -134,11 +137,11 @@ export default function Header() {
             type="checkbox"
             checked={dark}
             onChange={() => {
-              localStorage.setItem("theme", dark ? "light" : "dark")
+              localStorage.setItem("theme", dark ? THEME_CLAIR : THEME_SOMBRE)
               window.dispatchEvent(new Event("theme-change"))
             }}
             className="theme-controller"
-            value="dark"
+            value={THEME_SOMBRE}
           />
 
           {/* sun icon */}

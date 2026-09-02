@@ -26,7 +26,7 @@ Emails : Brevo (fetch API, pas de SDK). Clé `BREVO_API_KEY` dans `.env.local` (
 
 ## Fichiers importants
 
-- `app/globals.css` : Tailwind + daisyUI (`themes: light --default, dark --prefersdark`)
+- `app/globals.css` : Tailwind + daisyUI (`themes: winter --default, night --prefersdark`)
 - Logos du site : `public/brand/logo.svg` (clair), `public/brand/logo-blanc.svg` (sombre)
 - Favicon : `metadata.icons` → `/brand/logo.svg` dans `app/layout.tsx`
 - `layout.tsx` : `lang="fr"`, polices Geist
@@ -49,14 +49,17 @@ Ne jamais le committer ni y déplacer le code du site.
 - Header, Hero, About, Skills, Projets, Contact
 - Les composants ne s’importent pas entre eux
 - Style : classes Tailwind dans les composants (pas de CSS séparé pour l’instant)
-- Tokens charte : plus tard, depuis `_local/`
+- Thèmes daisyUI figés : winter (clair) / night (sombre). Pas les tokens `_local/` pour les couleurs.
 
 ## Mode de travail avec l’agent
 
-- L’utilisateur écrit le code ; l’agent guide, n’écrit pas les fichiers (sauf demande, ex. AGENTS.md)
-- Avant une section : expliquer le plan (quoi / pourquoi), laisser essayer, corriger après, si besoin montrer les éléments à mettre en place.
-- Pas de mini-étapes à copier
-- Messages courts, français
+- L’utilisateur écrit le code. L’agent guide, n’écrit pas les fichiers (sauf demande explicite).
+- Adapter le niveau selon la difficulté et la nouveauté :
+  - Déjà vu / simple → message court, plan en 1-2 phrases, laisser faire. Pas de code à copier, pas de mini-étapes.
+  - Nouveau ou difficile → expliquer quoi + pourquoi, donner les étapes claires et le code à copier si ça aide vraiment, puis laisser appliquer.
+- Avant une section : dire le plan (quoi / pourquoi) sans noyer.
+- Après essai : corriger précisément, montrer seulement ce qui manque ou ce qui cloche.
+- Français. Longueur proportionnée : court sur le simple, plus détaillé sur le nouveau. Jamais « fais X » sans montrer comment si X n’a jamais été vu.
 
 ## Layout des sections
 
@@ -68,7 +71,7 @@ Ne jamais le committer ni y déplacer le code du site.
 
 - Header fait : logo, nav ancres, toggle daisyUI `swap` + `theme-controller`
 - `Header.tsx` est un Client Component (`"use client"`)
-- Thèmes daisyUI : light / dark. Thème mémorisé dans `localStorage` (`theme`). Lecture via `useSyncExternalStore` (évite le mismatch d’hydratation logo clair/sombre). Checkbox écrit `localStorage` + `theme-change`
+- Thèmes daisyUI : winter / night. `THEME_CLAIR` / `THEME_SOMBRE` dans `Header.tsx`. Thème mémorisé dans `localStorage` (`theme`). Lecture via `useSyncExternalStore` (évite le mismatch d’hydratation logo clair/sombre). Checkbox écrit `localStorage` + `theme-change`
 - Logo `Image` : `width`/`height` 25 + `className="h-6.5 w-6.5 shrink-0"`. Lien `href="#"` (haut de page). Plus de lien nav « Intro »
 - Hero fait : grille `grid-cols-1 md:grid-cols-2`, texte centré en mobile / à gauche dès `md`, photo `public/marc.jpg` via `next/image` (`priority`, `justify-self-center md:justify-self-end`). Plus d’`id` ni de `scroll-mt`
 - About fait (`id="apropos"`) : Qui suis-je ?, plusieurs `<p>`
@@ -86,7 +89,6 @@ Ne jamais le committer ni y déplacer le code du site.
 
 ## À faire (prochaine session)
 
-- Brancher les tokens de la charte (`_local/`)
-- Remplacer le README Next
 - Vercel : ajouter `BREVO_API_KEY` (jamais dans le repo)
 - DKIM / domaine Brevo : optionnel, plus tard
+- Polices charte (Space Grotesk / Inter) : optionnel, plus tard

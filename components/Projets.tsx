@@ -12,7 +12,7 @@ export default function Projets() {
 
         <div className="card bg-base-200 shadow-sm rounded-xl">
           <div className="card-body">
-            <div className="badge badge-soft badge-success">Live</div>
+            <div className="badge badge-success">Live</div>
             <h3 className="card-title">Portfolio</h3>
             <p>Cette page. Bac à sable pour pratiquer la mise en page, l’accessibilité et le mode sombre.</p>
           </div>
@@ -20,7 +20,7 @@ export default function Projets() {
 
         <div className="card bg-base-200 shadow-sm rounded-xl">
           <div className="card-body">
-            <div className="badge badge-soft badge-warning">En cours</div>
+            <div className="badge badge-warning">En cours</div>
             <h3 className="card-title">CaristePrêt</h3>
             <p>Quiz CACES pour réviser les autorisations de conduite. Mon premier vrai projet — je l’utilise moi-même.</p>
           </div>
@@ -28,7 +28,7 @@ export default function Projets() {
 
         <div className="card bg-base-200 shadow-sm rounded-xl">
           <div className="card-body">
-            <div className="badge badge-soft badge-info">Concept</div>
+            <div className="badge badge-info">Concept</div>
             <h3 className="card-title">Snippix</h3>
             <p>Gestionnaire de snippets pour freelances et solopreneurs : ranger, retrouver, réutiliser ses bouts de code.</p>
           </div>
