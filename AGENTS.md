@@ -39,7 +39,7 @@ Ne jamais le committer ni y déplacer le code du site.
 ## Conventions
 
 - Commentaires de code en français si besoin
-- README / profil : ton simple, amateur
+- README / profil : ton simple, amateur. README = vitrine (qui / quoi / stack / lancer / thèmes), pas un tuto Next ni de secrets
 - Commits : `chore`, `feat`, `fix`, `style`, `docs`
 
 ## Architecture
@@ -75,9 +75,9 @@ Ne jamais le committer ni y déplacer le code du site.
 - Logo `Image` : `width`/`height` 25 + `className="h-6.5 w-6.5 shrink-0"`. Lien `href="#"` (haut de page). Plus de lien nav « Intro »
 - Hero fait : grille `grid-cols-1 md:grid-cols-2`, texte centré en mobile / à gauche dès `md`, photo `public/marc.jpg` via `next/image` (`priority`, `justify-self-center md:justify-self-end`). Plus d’`id` ni de `scroll-mt`
 - About fait (`id="apropos"`) : Qui suis-je ?, plusieurs `<p>`
-- Skills fait (`id="stack"`) : badges Next.js, React, TypeScript, Tailwind CSS, daisyUI (`badge-outline`)
+- Skills fait (`id="stack"`) : badges Next.js, React, TypeScript, Tailwind CSS, daisyUI, Vercel, Brevo (`badge-outline`)
 - Projets fait (`id="projets"`) : 3 cartes daisyUI (Portfolio Live, CaristePrêt En cours, Snippix Concept), grille `sm:grid-cols-2 md:grid-cols-3`
-- Contact fait (`id="contact"`) : 2 colonnes, `items-start` (le form ne s’étire pas). Form Daisy (nom / email / message / Envoyer), honeypot `company` hidden. `"use client"`. POST `/api/contact`. Status `idle|loading|ok|error`. `form.reset` si ok. Champs + bouton `disabled` si ok. `required` `maxLength` 100/200/2000. Section `min-h-[calc(100svh-4rem)]` pour que Contact puisse coller sous le header (formulaire inchangé)
+- Contact fait (`id="contact"`) : 2 colonnes, `items-start` (le form ne s’étire pas). Form Daisy (nom / email / message / Envoyer), honeypot `company` hidden. `"use client"`. POST `/api/contact`. Status `idle|loading|ok|error`. `try/catch` autour du fetch (réseau → error). `errorMsg` = `body.error` de l’API, sinon message générique. Alertes daisyUI dans `aria-live="polite"` : succès `alert alert-success` `role="status"`, erreur `alert alert-error` `role="alert"`. `form.reset` si ok. Champs + bouton `disabled` si ok. Bouton « Envoi… » si loading. `required` `maxLength` 100/200/2000. Section `min-h-[calc(100svh-4rem)]`
 - Icônes Contact : GitHub + X, SVG inline Simple Icons, `size-6 fill-current`, `target="_blank"` `rel="noopener noreferrer"` `aria-label`. Pas LinkedIn / Instagram (choix). Liste `flex gap-4 mt-4`
 - `app/api/contact/route.ts` : POST, trim, honeypot fake ok, limites, regex email. `fetch` Brevo `https://api.brevo.com/v3/smtp/email` (header `api-key`). Sender/to `marcblouet.pro@gmail.com`. `replyTo` visiteur. `textContent` `De : ${nom}\nEmail : ${email}\n\n${message}` (pas de chevrons, Outlook les mange). Pas de SDK. Ne jamais committer `.env.local`
 - Scroll fluide fait : `className="scroll-smooth"` sur `<html>` dans `app/layout.tsx`
@@ -86,9 +86,16 @@ Ne jamais le committer ni y déplacer le code du site.
 - Menu burger fait : daisyUI `dropdown dropdown-center sm:hidden` au centre (remplace la nav). Nav desktop `hidden sm:block`. Breakpoint `sm` (pas `md`). SVG 3 traits, pas Lucide. Burger volontairement au milieu, pas collé au thème. Mêmes ternaires actifs que le desktop
 - Lien nav actif : scroll + `getBoundingClientRect().top <= 120`, dernière section dont le haut a passé cette ligne. `setActive("")` au-dessus d’À propos (Hero). Aussi `hashchange` / `resize`. Ternaires `bg-base-content text-base-100`. `overflow-hidden` sur le `<nav>` pour les coins. Plus d’IntersectionObserver (trop de sections visibles en grand écran)
 - Header non découpé (un fichier). Session 2026-09-01 après-midi : Brevo + thème + spy nav
+- README perso (plus le template Next) : titre, lien `marcblouet.com`, stack, contenu, lancer en local, thèmes winter/night, note d’apprentissage. Pas de clé API
+- Session 2026-09-02 : thèmes winter/night figés, README, badges Vercel/Brevo, alertes contact
 
-## À faire (prochaine session)
+## État du déploiement
 
-- Vercel : ajouter `BREVO_API_KEY` (jamais dans le repo)
-- DKIM / domaine Brevo : optionnel, plus tard
-- Polices charte (Space Grotesk / Inter) : optionnel, plus tard
+- Déployé sur Vercel avec `BREVO_API_KEY` configurée (jamais dans le repo)
+- `marcblouet.com` relié à Vercel depuis Hostinger, HTTPS actif
+- Formulaire testé en production : e-mail Brevo bien reçu
+
+## À faire (optionnel)
+
+- DKIM / domaine Brevo : plus tard
+- Polices charte (Space Grotesk / Inter) : plus tard
